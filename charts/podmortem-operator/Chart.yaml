@@ -1,0 +1,10 @@
+apiVersion: v2
+name: podmortem-operator
+description: A Helm chart to deploy the Podmortem operator and supporting services
+
+type: application
+
+version: 0.1.0
+appVersion: 0.1.0
+
+kubeVersion: ">=1.22.0-0" 

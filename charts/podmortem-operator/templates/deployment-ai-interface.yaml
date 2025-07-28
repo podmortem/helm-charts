@@ -1,0 +1,45 @@
+{{- if .Values.aIInterface.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: podmortem-ai-interface-service
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: podmortem-ai-interface-service
+spec:
+  replicas: {{ .Values.aIInterface.replicaCount }}
+  selector:
+    matchLabels:
+      app: podmortem-ai-interface-service
+  template:
+    metadata:
+      labels:
+        app: podmortem-ai-interface-service
+    spec:
+      containers:
+        - name: ai-interface
+          image: "{{ .Values.aIInterface.image.repository }}:{{ .Values.aIInterface.image.tag }}"
+          imagePullPolicy: {{ .Values.aIInterface.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+          env:
+            - name: QUARKUS_LOG_LEVEL
+              value: "INFO"
+            - name: PODMORTEM_PROMPTS_EXTERNAL_ENABLED
+              value: "{{ .Values.aIInterface.promptsExternal.enabled }}"
+            - name: PODMORTEM_PROMPTS_EXTERNAL_PATH
+              value: "{{ .Values.aIInterface.promptsExternal.mountPath }}"
+          {{- if .Values.aIInterface.promptsExternal.enabled }}
+          volumeMounts:
+            - name: external-prompts
+              mountPath: {{ .Values.aIInterface.promptsExternal.mountPath }}
+              readOnly: true
+          {{- end }}
+      volumes:
+        {{- if .Values.aIInterface.promptsExternal.enabled }}
+        - name: external-prompts
+          configMap:
+            name: {{ .Values.aIInterface.promptsExternal.configMapName }}
+            optional: true
+        {{- end }}
+{{- end }} 

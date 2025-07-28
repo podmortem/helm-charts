@@ -1,0 +1,36 @@
+namespace: podmortem-system
+installCRDs: true
+
+operator:
+  replicaCount: 1
+  image:
+    repository: ghcr.io/podmortem/podmortem-operator
+    tag: latest
+    pullPolicy: IfNotPresent
+  resources: {}
+
+logParser:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: ghcr.io/podmortem/podmortem-log-parser
+    tag: latest
+    pullPolicy: IfNotPresent
+  resources: {}
+
+aIInterface:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: ghcr.io/podmortem/podmortem-ai-interface
+    tag: latest
+    pullPolicy: IfNotPresent
+  resources: {}
+  promptsExternal:
+    enabled: false
+    configMapName: podmortem-external-prompts
+    mountPath: /etc/podmortem/prompts
+
+patternCache:
+  enabled: true
+  storage: 5Gi 

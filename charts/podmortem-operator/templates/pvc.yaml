@@ -1,0 +1,15 @@
+{{- if .Values.patternCache.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pattern-cache-pvc
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: podmortem-pattern-cache
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.patternCache.storage }}
+{{- end }} 

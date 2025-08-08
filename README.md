@@ -64,6 +64,7 @@ Key values:
 
 * `installCRDs` – set `false` if your cluster admins install CRDs out-of-band.
 * `patternCache.storage` – PVC size for pattern libraries.
+* `operator.watchNamespaces` – optional comma-separated list to restrict the operator to specific namespaces (e.g., `"apps,platform"`). When empty, the operator watches all namespaces but only processes pods matched by `Podmortem` monitors.
 
 ---
 

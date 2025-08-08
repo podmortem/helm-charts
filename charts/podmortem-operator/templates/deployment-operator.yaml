@@ -41,7 +41,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: PODMORTEM_WATCH_NAMESPACES
-              value: "{{ .Values.operator.watchNamespaces }}"
+              value: {{ .Values.operator.watchNamespaces | quote }}
             - name: POD_NAME
               valueFrom:
                 fieldRef:
